@@ -3,7 +3,8 @@
 A demonstration of various optimization methods. Currently implemented:
 
 - [Newton's method](https://en.wikipedia.org/wiki/Newton%27s_method_in_optimization) in one variable
-- (TODO) Gradient descent
+- [Gradient descent](https://en.wikipedia.org/wiki/Gradient_descent)
+- (TODO) Coordinate descent; adaptive coordinate descent
 - (TODO) Newton's method in multiple variables
 - (TODO) [Simulated annealing](https://en.wikipedia.org/wiki/Simulated_annealing)
 
@@ -16,7 +17,9 @@ To run tests:
 
 # Examples
 
-Newton's method: Calculate e very inefficiently, by finding the maximum point of f(x) = x^(1/x): (unfortunately we have to find the derivatives by hand)
+## Newton's method
+
+Calculate e very inefficiently, by finding the maximum point of f(x) = x^(1/x): (unfortunately we have to find the derivatives by hand)
 
     *Numeric.Optimization.Hopty> let f x = x**(1/x)  -- = e^((1/x)log(x))
     *Numeric.Optimization.Hopty> let f' x = ((1/x^2) - (log x)/x^2) * fn x
@@ -24,9 +27,21 @@ Newton's method: Calculate e very inefficiently, by finding the maximum point of
     *Numeric.Optimization.Hopty> newton f' f'' 1
     2.718281828458931
 
-This is actually inaccurate: it is only correct to the 11th decimal place.
+This is actually inaccurate: it's only correct to the 11th decimal place.
 
-TODO: with simulated annealing: traveling salesman problem -- look up average one-way air fares between 1000 largest cities, and minimize total cost. Plot itinerary on a map.
+## Gradient descent
+
+Find the minimum point of the [Rosenbrock function](https://en.wikipedia.org/wiki/Rosenbrock_function):
+
+    *Numeric.Optimization.Hopty> -- rosen [x, y] = (1-x)^2 + 100*(y-x^2)^2
+    *Numeric.Optimization.Hopty> let gradrosen [x, y] = [2*(x-1) - 400*x*(y-x^2), 200*(y-x^2)]
+    *Numeric.Optimization.Hopty> graddes 0.005 gradrosen [-0.5, 0.5]
+    [0.9999999999999577,0.9999999999999153]
+
+
+## Simulated annealing (TODO)
+
+TODO: traveling salesman problem -- look up average one-way air fares between 1000 largest cities, and minimize total cost. Plot itinerary on a map.
 
 # Issues and limitations
 
