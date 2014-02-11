@@ -4,8 +4,9 @@ import qualified Numeric.Optimization.Hopty as H
 
 main = do
   putStrLn $ "phi (should be ~1.618) = " ++ show phi
-  putStrLn $ "Minimum point of Rosenbrock function (should be [1, 1]) = "
-    ++ show minpointrosen
+  putStrLn $ "Minimum point of Rosenbrock function (should be [1, 1]):"
+  putStrLn $ "By gradient descent: " ++ show minrosenGraddes
+  putStrLn $ "By pattern search:   " ++ show minrosenPatternsearch
 
 
 -- Golden ratio
@@ -16,6 +17,5 @@ phi = H.newton (\x -> (1 + sqrt5)/2 - x) (\x -> -1) 1  -- (1 + sqrt5) / 2
 rosen [x, y] = (1-x)^2 + 100*(y-x^2)^2
 gradrosen [x, y] = [2*(x-1) - 400*x*(y-x^2),
                     200*(y-x^2)]
-minpointrosen = H.graddes 0.005 gradrosen [-0.5, 0.5]
-minvaluerosen = rosen minpointrosen
-
+minrosenGraddes = H.graddes 0.005 gradrosen [-0.5, 0.5]
+minrosenPatternsearch = H.patternsearch 1 rosen [-0.5, 0.5]

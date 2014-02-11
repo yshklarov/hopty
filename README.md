@@ -2,11 +2,20 @@
 
 A demonstration of various optimization methods. Currently implemented:
 
-- [Newton's method](https://en.wikipedia.org/wiki/Newton%27s_method_in_optimization) in one variable
-- [Gradient descent](https://en.wikipedia.org/wiki/Gradient_descent)
-- (TODO) Coordinate descent; adaptive coordinate descent
-- (TODO) Newton's method in multiple variables
-- (TODO) [Simulated annealing](https://en.wikipedia.org/wiki/Simulated_annealing)
+- [Newton's method][1] in one variable
+- [Gradient descent][2]
+- [Pattern search][3]
+- (TODO) [Coordinate descent][4]; [adaptive coordinate descent][5]
+- (TODO) [Newton's method in multiple variables][6]
+- (TODO) [Simulated annealing][7]
+
+[1]: https://en.wikipedia.org/wiki/Newton%27s_method_in_optimization
+[2]: https://en.wikipedia.org/wiki/Gradient_descent
+[3]: https://en.wikipedia.org/wiki/Pattern_search_(optimization)
+[4]: https://en.wikipedia.org/wiki/Coordinate_descent
+[5]: https://en.wikipedia.org/wiki/Adaptive_coordinate_descent
+[6]: https://en.wikipedia.org/wiki/Newton%27s_method_in_optimization#Higher_dimensions
+[7]: https://en.wikipedia.org/wiki/Simulated_annealing
 
 To run tests:
 
@@ -19,24 +28,34 @@ To run tests:
 
 ## Newton's method
 
-Calculate e very inefficiently, by finding the maximum point of f(x) = x^(1/x): (unfortunately we have to find the derivatives by hand)
+Calculate e very inefficiently, by finding the maximum point of ![equation][50] (unfortunately we have to find the derivatives by hand):
+
+[50]: http://latex.codecogs.com/gif.latex?%5Csqrt%5Bx%5Dx
 
     *Numeric.Optimization.Hopty> let f x = x**(1/x)  -- = e^((1/x)log(x))
-    *Numeric.Optimization.Hopty> let f' x = ((1/x^2) - (log x)/x^2) * fn x
-    *Numeric.Optimization.Hopty> let f'' x = ((1/x^2) - (log x)/x^2) * fn' x + ((-2/x^3) - 1/x^2 + 2*(log x)/x^3) * fn x
+    *Numeric.Optimization.Hopty> let f' x = ((1/x^2) - (log x)/x^2) * f x
+    *Numeric.Optimization.Hopty> let f'' x = ((1/x^2) - (log x)/x^2) * f' x + ((-2/x^3) - 1/x^2 + 2*(log x)/x^3) * f x
     *Numeric.Optimization.Hopty> newton f' f'' 1
-    2.718281828458931
+    2.7182818284590446
 
-This is actually inaccurate: it's only correct to the 11th decimal place.
+This is actually inaccurate: the last two decimal places are incorrect.
 
 ## Gradient descent
 
-Find the minimum point of the [Rosenbrock function](https://en.wikipedia.org/wiki/Rosenbrock_function):
+Find the minimum point of the [Rosenbrock function](https://en.wikipedia.org/wiki/Rosenbrock_function), should be (1, 1):
 
     *Numeric.Optimization.Hopty> -- rosen [x, y] = (1-x)^2 + 100*(y-x^2)^2
     *Numeric.Optimization.Hopty> let gradrosen [x, y] = [2*(x-1) - 400*x*(y-x^2), 200*(y-x^2)]
     *Numeric.Optimization.Hopty> graddes 0.005 gradrosen [-0.5, 0.5]
     [0.9999999999999577,0.9999999999999153]
+
+## Pattern search
+
+This is easier to use than gradient descent: we don't need to supply the gradient! Also, it's and about five times faster.
+
+    *Numeric.Optimization.Hopty> let rosenbrock [x, y] = (1-x)^2 + 100*(y-x^2)^2
+    *Numeric.Optimization.Hopty> patternsearch 100 rosenbrock [-0.5, 0.5]
+    [0.9999999999999778,0.9999999999999556]
 
 
 ## Simulated annealing (TODO)
@@ -48,3 +67,4 @@ TODO: traveling salesman problem -- look up average one-way air fares between 10
 - Precision is not handled well (ie. at all), and arbitrary-precision calculations are not supported.
 - No unit tests yet
 - Poor documentation
+- No detection for when convergence/divergence is too slow
