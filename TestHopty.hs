@@ -3,10 +3,11 @@ module Main where
 import qualified Numeric.Optimization.Hopty as H
 
 main = do
-  putStrLn $ "phi (should be ~1.618) = " ++ show phi
+--  putStrLn $ "phi (should be ~1.618) = " ++ show phi
   putStrLn $ "Minimum point of Rosenbrock function (should be [1, 1]):"
-  putStrLn $ "By gradient descent: " ++ show minrosenGraddes
-  putStrLn $ "By pattern search:   " ++ show minrosenPatternsearch
+  putStrLn $ "By gradient descent:   " ++ show minrosenGraddes
+  putStrLn $ "By pattern search:     " ++ show minrosenPatternsearch
+  putStrLn $ "By coordinate descent: " ++ show minrosenCoorddes
 
 
 -- Golden ratio
@@ -19,3 +20,4 @@ gradrosen [x, y] = [2*(x-1) - 400*x*(y-x^2),
                     200*(y-x^2)]
 minrosenGraddes = H.graddes 0.005 gradrosen [-0.5, 0.5]
 minrosenPatternsearch = H.patternsearch 1 rosen [-0.5, 0.5]
+minrosenCoorddes = H.coorddes 1 rosen [-0.5, 0.5]
