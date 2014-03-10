@@ -66,11 +66,6 @@ Our coordinate descent algorithm internally performs a pattern search one coordi
     *Numeric.Optimization.Hopty> coorddes 100 rosenbrock [-0.5, 0.5]
     [0.9999999999973368,0.9999999999946714]
 
-
-## Simulated annealing (TODO)
-
-TODO: traveling salesman problem -- look up average one-way air fares between 1000 largest cities, and minimize total cost. Plot itinerary on a map.
-
 # Issues and limitations
 
 - Precision is not handled well (ie. at all), and arbitrary-precision calculations are not supported.
